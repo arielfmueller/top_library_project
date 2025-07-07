@@ -16,36 +16,64 @@
       href="https://fonts.googleapis.com/css2?family=Rouge+Script&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
   </head>
   <body>
-    <h1>My Library</h1>
-    <div class="register">
-      <p>Add books to your bookshelf and keep track of your progress!</p>
-      <form id="library">
-        <div class="title">
-          <label for="title">Title</label>
-          <input id="title" type="text" name="title" required placeholder="The Courage To Be Disliked"/>
-        </div>
-        <div class="author">
+    <header>
+      My Library
+      <p>by mueller</p>
+    </header>
+
+    <main>
+      <div class="register">
+        <p>Add books to your bookshelf and keep track of your progress!</p>
+        <form id="library">
+          <div class="title">
+            <label for="title">Title</label>
+            <input
+              id="title"
+              type="text"
+              name="title"
+              required
+              placeholder="The Courage To Be Disliked"
+            />
+          </div>
+          <div class="author">
             <label for="author">Author</label>
-            <input id="author" type="" name="author" required placeholder="Ichiro Kishimi and Fumitake Koga"/>
-        </div>
-        <div class="pages">
+            <input
+              id="author"
+              type=""
+              name="author"
+              required
+              placeholder="Ichiro Kishimi and Fumitake Koga"
+            />
+          </div>
+          <div class="pages">
             <label for="pages">Pages</label>
-            <input id="pages" type="number" name="pages" required placeholder="288"/>
-        </div>
-        <div class="status">
-          <label for="status">Status</label>
-          <select id="status" name="status" form="library">
-            <option value="">--Choose an option</option>
-            <option value="read">Read</option>
-            <option value="reading">Reading</option>
-            <option value="want">Want to read</option>
-            <option value="abandoned">Abandoned</option>
-          </select>
-        </div>
-        <button type="submit">Add</button>
-      </form>
-    </div>
+            <input
+              id="pages"
+              type="number"
+              name="pages"
+              required
+              placeholder="288"
+            />
+          </div>
+          <div class="status">
+            <label for="status">Status</label>
+            <select id="status" name="status" form="library">
+              <option value="">--Choose</option>
+              <option value="read">Read</option>
+              <option value="reading">Reading</option>
+              <option value="want">Want to read</option>
+              <option value="abandoned">Abandoned</option>
+            </select>
+          </div>
+          <button type="submit">Add</button>
+        </form>
+      </div>
+    </main>
   </body>
 </html>
