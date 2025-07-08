@@ -15,13 +15,6 @@ function addBookToLibrary(title, author, pages, status) {
   myLibrary.push(newBook);
 }
 
-addBookToLibrary(
-  "The Courage To Be Disliked",
-  "Ichiro Kishimi and Fumitake Koga",
-  288,
-  "read"
-);
-
 // Setting up the DOM
 const body = document.querySelector("body");
 const main = document.querySelector("main");
@@ -31,7 +24,7 @@ main.appendChild(divLibrary);
 
 // Function to display the books registered by the user
 async function displayBooks(library) {
-  //   divLibrary.innerHTML = "";
+  divLibrary.innerHTML = "";
 
   for (const book of library) {
     const card = document.createElement("div");
@@ -53,6 +46,7 @@ async function displayBooks(library) {
     pages.textContent = `Pages: ${book.pages}`;
 
     const status = document.createElement("p");
+    status.setAttribute("class", "card-status");
     status.textContent = `Status: ${book.status}`;
 
     // Fetch and set image source
@@ -67,15 +61,15 @@ async function displayBooks(library) {
     const cardImg = document.createElement("div");
     const cardText = document.createElement("div");
 
-    // Creating the delete book button
+    // Creating the remove book button
     const removeBtn = document.createElement("i");
     removeBtn.setAttribute("class", "remove material-icons");
     removeBtn.textContent = "delete_forever";
 
     //Creating the read button
-    const readButton = document.createElement("i");
-    readButton.setAttribute("class", "check material-icons");
-    readButton.textContent = "check";
+    const statusButton = document.createElement("i");
+    statusButton.setAttribute("class", "status-button material-icons");
+    statusButton.textContent = "autorenew";
 
     // Append everything to the card
     card.appendChild(cardImg);
@@ -87,7 +81,7 @@ async function displayBooks(library) {
     cardText.appendChild(pages);
     cardText.appendChild(status);
     cardText.appendChild(removeBtn);
-    cardText.appendChild(readButton);
+    cardText.appendChild(statusButton);
 
     divLibrary.appendChild(card);
   }
@@ -103,12 +97,26 @@ button.addEventListener("click", (e) => {
   const author = document.getElementById("author").value;
   const pages = document.getElementById("pages").value;
   const status = document.getElementById("status").value;
-  console.log(title, author, pages, status);
 
-  addBookToLibrary(title, author, pages, status);
+  if (!title || !author || !pages || !status) {
+    alert("Please insert the books info!");
+  }
+  {
+    const isDuplicate = myLibrary.some(
+      (book) =>
+        book.title.toLowerCase() === title.toLowerCase().trim() &&
+        book.author.toLowerCase() === author.toLowerCase().trim()
+    );
 
-  displayBooks(myLibrary);
-  form.reset();
+    if (isDuplicate) {
+      alert("This book is already in your library!");
+    }
+  }
+  {
+    addBookToLibrary(title, author, pages, status);
+    displayBooks(myLibrary);
+    form.reset();
+  }
 });
 
 // Fetch the cover of the book
@@ -125,3 +133,37 @@ async function fetchCoverImage(title) {
 
   return null; // If no cover was found
 }
+
+// Function for obtaining the next status for the book-card
+function getNextStatus(current) {
+  const statusOptions = ["read", "reading", "want to read", "abandoned"];
+  const index = statusOptions.indexOf(current);
+  return statusOptions[(index + 1) % statusOptions.length];
+}
+
+// Change status button
+divLibrary.addEventListener("click", (e) => {
+  if (e.target.classList.contains("status-button")) {
+    const card = e.target.closest(".book-card");
+    const statusText = card.querySelector(".card-status");
+
+    statusCurrent = statusText.textContent.slice(8);
+
+    statusNew = getNextStatus(statusCurrent);
+
+    statusText.textContent = `Status: ${statusNew}`;
+  }
+});
+
+// Remove book button
+divLibrary.addEventListener("click", (e) => {
+  if (e.target.classList.contains("remove")) {
+    const card = e.target.closest(".book-card");
+    const bookId = card.getAttribute("id");
+    const index = myLibrary.findIndex((book) => book.id === bookId);
+    if (index !== -1) {
+      myLibrary.splice(index, 1);
+      displayBooks(myLibrary);
+    }
+  }
+});

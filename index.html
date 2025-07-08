@@ -23,8 +23,8 @@
   </head>
   <body>
     <header>
-      My Library
-      <p>by mueller</p>
+      <div class="header-title">My Library<p>by mueller</p></div>
+      
     </header>
 
     <main>
@@ -59,12 +59,13 @@
               name="pages"
               required
               placeholder="288"
+              min="1"
             />
           </div>
           <div class="status">
             <label for="status">Status</label>
             <select id="status" name="status" form="library">
-              <option value="">--Choose</option>
+              <option value="" disabled selected>--Choose</option>
               <option value="read">Read</option>
               <option value="reading">Reading</option>
               <option value="want">Want to read</option>
